@@ -1,65 +1,71 @@
-let tragoElegido = []
-let carrito = []
+$(document).ready(() => {
 
-// FUNCIONES
+    //MODAL
 
-// Comprobar Local Storage
-if (localStorage.getItem('carrito')) {
-    carrito = JSON.parse(localStorage.getItem('carrito'))
-} else {
-    carrito = []
-}
+    modal()
 
-if (carrito != []) {
-    cargarCarrito()
-}
+    let tragoElegido = []
+    let carrito = []
 
-// SELECCIONAR BEBIDA
+    // FUNCIONES
 
-document.querySelectorAll(".bebidas").forEach(el => {
-    el.addEventListener("click", e => {
-        const id = e.target.getAttribute("id");
-        seleccionarTrago(id);
-        document.getElementById('titulo-elaboracion').innerHTML = `Elaboracion de ${id}`
-    });
-});
-
-function seleccionarTrago(tragos) {
-
-    switch (tragos) {
-        case 'Margarita':
-            tragoElegido = margarita
-            break;
-        case 'sex on the beach':
-            tragoElegido = sexOnTheBeach
-            break;
-        case 'mojito':
-            tragoElegido = mojito
-            break;
-        case 'manhattan':
-            tragoElegido = manhattan
-            break;
-        default:
-            break;
+    // Comprobar Local Storage
+    if (localStorage.getItem('carrito')) {
+        carrito = JSON.parse(localStorage.getItem('carrito'))
+    } else {
+        carrito = []
     }
 
-    mostrarTrago()
-}
+    if (carrito != []) {
+        cargarCarrito()
+    }
+
+    // SELECCIONAR BEBIDA
+
+    $(".bebidas").each((i, el) => {
+        $(this).click(e => {
+            const id = e.target.getAttribute("id")
+            seleccionarTrago(id)
+            $('#titulo-elaboracion').html(`Elaboracion de ${id}`)
+        })
+    });
+
+    function seleccionarTrago(tragos) {
+
+        switch (tragos) {
+            case 'Margarita':
+                tragoElegido = margarita
+                break;
+            case 'sex on the beach':
+                tragoElegido = sexOnTheBeach
+                break;
+            case 'mojito':
+                tragoElegido = mojito
+                break;
+            case 'manhattan':
+                tragoElegido = manhattan
+                break;
+            default:
+                break;
+        }
+
+        mostrarTrago()
+    }
 
 
-//MOSTRAR TRAGO SELECCIONADO
-function mostrarTrago() {
-    let ingredientes = tragoElegido.ingredientes;
-    let mostrarIngredientes = ''
-    document.querySelector('#ingredientes').innerHTML = ''
+    //MOSTRAR TRAGO SELECCIONADO
+    function mostrarTrago() {
+        let ingredientes = tragoElegido.ingredientes;
+        let mostrarIngredientes = ''
+        $('#ingredientes').html('')
 
-    for (let ingrediente of ingredientes) {
+        for (let ingrediente of ingredientes) {
 
-        mostrarIngredientes = document.createElement('div')
-        mostrarIngredientes.className = 'card mb-3'
-        mostrarIngredientes.style.maxWidth = '540px'
+            mostrarIngredientes = document.createElement('div')
+            mostrarIngredientes.className = 'card mb-3'
+            mostrarIngredientes.style.maxWidth = '540px'
 
-        mostrarIngredientes.innerHTML = `<div class="row no-gutters">
+            mostrarIngredientes.innerHTML = `<div class="row no-gutters">
           <div class="col mb-4">
             <img class="imagen-bebida" src="./img/${ingrediente.imagen}" alt="...">
           </div>
@@ -80,95 +86,95 @@ function mostrarTrago() {
           </div>
         </div>`
 
-        document.querySelector('#ingredientes').appendChild(mostrarIngredientes)
-    }
-
-    // CAPTURAR COMPRA
-    document.querySelectorAll("#btn-comprar").forEach(el => {
-        el.addEventListener("click", e => {
-            let articuloComprado = e.target.getAttribute("ingrediente");
-            let objetoComprado = ingredientes.find(el => el.id == articuloComprado)
-            let cantidadComprada = Number(document.getElementById(`cantidad${objetoComprado.descripcion}`).value)
-            objetoComprado.cantidad = cantidadComprada
-            agregarCarrito(objetoComprado)
-        });
-    });
-
-    // RESTAR CANTIDAD
-    document.querySelectorAll("#restar").forEach(el => {
-        el.addEventListener("click", e => {
-            const articulo = e.target.parentNode.className;
-            cambiarCantidad('restar', articulo)
-        });
-    });
-
-    //SUMAR CANTIDAD
-    document.querySelectorAll("#sumar").forEach(el => {
-        el.addEventListener("click", e => {
-            const articulo = (e.target.parentNode.className)
-            cambiarCantidad('sumar', articulo)
-        });
-    });
-
-    //CAMBIAR NUMERO DE CANTIDAD COMPRADA
-    function cambiarCantidad(operacion, art) {
-
-        let cantidad = Number(document.getElementById(`cantidad${art}`).value)
-        console.log('Actual ', cantidad)
-
-        if (operacion == 'restar')
-            cantidad = cantidad - 1
-        else {
-            cantidad = cantidad + 1
+            $('#ingredientes').append(mostrarIngredientes)
         }
-        document.getElementById(`cantidad${art}`).value = cantidad
+
+        // CAPTURAR COMPRA
+        document.querySelectorAll("#btn-comprar").forEach(el => {
+            el.addEventListener("click", e => {
+                let articuloComprado = e.target.getAttribute("ingrediente");
+                let objetoComprado = ingredientes.find(el => el.id == articuloComprado)
+                let cantidadComprada = Number(document.getElementById(`cantidad${objetoComprado.descripcion}`).value)
+                objetoComprado.cantidad = cantidadComprada
+                agregarCarrito(objetoComprado)
+            });
+        });
+
+        // RESTAR CANTIDAD
+        document.querySelectorAll("#restar").forEach(el => {
+            el.addEventListener("click", e => {
+                const articulo = e.target.parentNode.className;
+                cambiarCantidad('restar', articulo)
+            });
+        });
+
+        //SUMAR CANTIDAD
+        document.querySelectorAll("#sumar").forEach(el => {
+            el.addEventListener("click", e => {
+                const articulo = (e.target.parentNode.className)
+                cambiarCantidad('sumar', articulo)
+            });
+        });
+
+        //CAMBIAR NUMERO DE CANTIDAD COMPRADA
+        function cambiarCantidad(operacion, art) {
+
+            let cantidad = Number($(`#cantidad${art}`).val())
+            console.log('Actual ', cantidad)
+
+            if (operacion == 'restar')
+                cantidad = cantidad - 1
+            else {
+                cantidad = cantidad + 1
+            }
+            $(`#cantidad${art}`).val(cantidad)
+
+        }
+
+        $('#elaboracion').html(tragoElegido.preparacion)
 
     }
 
-    document.getElementById('elaboracion').innerHTML = tragoElegido.preparacion
-
-}
 
 
 
+    //AGREGAR ARTICULO AL CARRITO
+    function agregarCarrito(objetoCarrito) {
 
-//AGREGAR ARTICULO AL CARRITO
-function agregarCarrito(objetoCarrito) {
+        console.log(objetoCarrito)
+        carrito.push(objetoCarrito)
+        console.log(carrito)
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+        cargarCarrito()
 
-    console.log(objetoCarrito)
-    carrito.push(objetoCarrito)
-    console.log(carrito)
-    localStorage.setItem('carrito', JSON.stringify(carrito))
-    cargarCarrito()
+    }
 
-}
+    //QUITAR ARTICULO DEL CARRITO
+    function quitarDelCarrito(id) {
 
-//QUITAR ARTICULO DEL CARRITO
-function quitarDelCarrito(id) {
+        let removerArt = carrito.indexOf(carrito.find(el => el.id == id))
+        carrito.splice(removerArt, 1)
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+        let productosCarrito = document.querySelector('.producto')
+        productosCarrito.parentNode.removeChild(productosCarrito)
+        cargarCarrito()
 
-    let removerArt = carrito.indexOf(carrito.find(el => el.id == id))
-    carrito.splice(removerArt, 1)
-    localStorage.setItem('carrito', JSON.stringify(carrito))
-    let productosCarrito = document.querySelector('.producto')
-    productosCarrito.parentNode.removeChild(productosCarrito)
-    cargarCarrito()
+    }
 
-}
+    //DIBUJAR EL CARRITO
+    function cargarCarrito() {
+        let productosEnCarrito = ''
+        $('#carrito').html('')
+        let totalCarrito = 0
+        let numeroCarrito = 0
 
-//DIBUJAR EL CARRITO
-function cargarCarrito() {
-    let productosEnCarrito = ''
-    document.getElementById('carrito').innerHTML = ''
-    let totalCarrito = 0
-    let numeroCarrito = 0
+        for (let productoCarrito of carrito) {
+            let totalProducto = productoCarrito.precio * productoCarrito.cantidad
 
-    for (let productoCarrito of carrito) {
-        let totalProducto = productoCarrito.precio * productoCarrito.cantidad
+            productosEnCarrito = document.createElement('div')
+            productosEnCarrito.className = 'card border-success dropdown-item producto'
 
-        productosEnCarrito = document.createElement('div')
-        productosEnCarrito.className = 'card border-success dropdown-item producto'
-
-        productosEnCarrito.innerHTML = `<div class="card-header titulo-card">${productoCarrito.descripcion} ${productoCarrito.marca}
+            productosEnCarrito.innerHTML = `<div class="card-header titulo-card">${productoCarrito.descripcion} ${productoCarrito.marca}
                 <div class="btn btn-danger remover" id="${productoCarrito.id}" ingrediente="${productoCarrito.descripcion}">X</div>
             </div>
             <div class="card-body text-success">
@@ -176,18 +182,64 @@ function cargarCarrito() {
             <h5 class="card-title">Precio $${totalProducto}</h5>
             </div>`
 
-        totalCarrito += totalProducto
-        numeroCarrito += 1
+            totalCarrito += totalProducto
+            numeroCarrito += 1
 
-        document.querySelector('#carrito').appendChild(productosEnCarrito)
+            $('#carrito').append(productosEnCarrito)
+        }
+
+        $('#numero-carrito').html(numeroCarrito)
+        $('#total-carrito').html(`Total de la compra $${totalCarrito}`)
+
+        document.querySelectorAll(".remover").forEach(el => {
+            el.addEventListener("click", e => {
+                quitarDelCarrito(e.target.id)
+            });
+        });
     }
 
-    document.getElementById('numero-carrito').innerHTML = numeroCarrito
-    document.getElementById('total-carrito').innerHTML = `Total de la compra $${totalCarrito}`
+// MODAL
 
-    document.querySelectorAll(".remover").forEach(el => {
-        el.addEventListener("click", e => {
-            quitarDelCarrito(e.target.id)
+    function modal() {
+        var id = "#modal-inicial";
+
+
+        //Mascara de fondo que ocupa toda la pantalla
+        $('#mask').css({
+            'width': $(window).width(),
+            'height': $(document).height()
         });
+
+        //Efecto de aparicion de mascara             
+        $('#mask').fadeIn(1000);
+        $('#mask').fadeTo("slow", 0.8);
+
+
+        //Colocar el modal en medio de la pantalla
+        $(id).css('top', $(window).height() / 2.2 - $(id).height() / 2);
+        $(id).css('left', $(window).width() / 2.2 - $(id).width() / 2);
+
+        //Animaciones anidadas
+        $("#promociones").hide()
+        $(id).fadeIn(2000, function() {
+            $("#hotsale").fadeOut(1500, function() {
+                $("#promociones").fadeIn(1000)
+            })
+        });
+        
+    };
+
+    //Cerrar modal al hacer click en "Cerrar"
+    $('.window .close').click(function (e) {
+        //Cancel the link behavior
+        e.preventDefault();
+        $('#mask, .window').hide();
     });
-}
+
+    //Cerrar modal al hacer click fuera del modal
+    $('#mask').click(function () {
+        $(this).hide();
+        $('.window').hide();
+    });
+
+});

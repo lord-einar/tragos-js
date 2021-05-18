@@ -10,11 +10,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="css/estilos.css">
     <title>-=Tragos=-</title>
 </head>
 
 <body>
+
+<!-- MODAL -->
+
+<div id="boxes">
+
+	<div id="modal-inicial" class="window">
+		<b>Promociones</b>
+        <div>
+            <img id="hotsale" src="img/hot-sale.png" alt="">
+            <img id="promociones" src="img/promociones.png" alt="">
+        </div>
+
+		<a href="#" class="close">Cerrar   X</a>
+
+	</div>
+
+ 	<div id="mask"></div>
+</div>
+
+<!-- FIN MODAL -->
 
     <nav class="navbar navbar-info bg-info">
         <span class="navbar-brand mb-0 h1">Navbar</span>
@@ -32,13 +52,13 @@
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="./img/slide-1.jpg" width="850" height="410" class="d-block w-100" alt="...">
+                <img src="img/slide-1.jpg" width="850" height="410" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="./img/slide-2.jpg" width="850" height="410" class="d-block w-100" alt="...">
+                <img src="img/slide-2.jpg" width="850" height="410" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="./img/slide-3.jpg" width="850" height="410" class="d-block w-100" alt="...">
+                <img src="img/slide-3.jpg" width="850" height="410" class="d-block w-100" alt="...">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -50,6 +70,9 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+
+
+
 
     <div class="container">
 
@@ -97,6 +120,7 @@
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
     </script>
 
+    <script src="js/jquery.js"></script>
     <script src="js/objetos.js"></script>
     <script src="js/main.js"></script>
 </body>

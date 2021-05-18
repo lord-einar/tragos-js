@@ -72,9 +72,35 @@
 }
 
 .titulo-card {
-    background-color:crimson;
+    background-color: crimson;
     color: white;
     font-size: larger;
     display: flex;
     justify-content: space-between;
+}
+
+/* MODAL */
+/* Z-index of #mask must lower than #boxes .window */
+#mask {
+    position: absolute;
+    z-index: 999;
+    background-color: #000;
+    display: none;
+}
+
+#boxes .window {
+    position: fixed;
+    width: 800px;
+    height: 600px;
+    display: none;
+    z-index: 9999;
+    padding: 20px;
+    background-color: #fff;
+}
+
+
+/* Customize your modal window here, you can add background image too */
+#boxes #dialog {
+    width: 375px;
+    height: 203px;
 }
