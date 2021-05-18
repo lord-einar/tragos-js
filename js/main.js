@@ -67,7 +67,7 @@ $(document).ready(() => {
 
             mostrarIngredientes.innerHTML = `<div class="row no-gutters">
           <div class="col mb-4">
-            <img class="imagen-bebida" src="img/${ingrediente.imagen}" alt="...">
+            <img class="imagen-bebida" src="./img/${ingrediente.imagen}" alt="...">
           </div>
           <div class="col-md-8">
             <div class="card-body">
